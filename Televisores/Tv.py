@@ -1,77 +1,80 @@
+from televisores.control import Control
+from televisores.marca import Marca
+
 class TV:
-    numTV=0
+    _numTV=0
     def __init__(self, marca, estado):
-        self.marca = marca
-        self.estado = estado
-        self.control = None
-        self.precio=500
-        self.volumen=1
-        self.canal=1
-        TV.numTV += 1 
-        
-    def getMarca(self):
-        return self.marca
+        self._marca = marca
+        self._canal = 1
+        self._precio = 500
+        self._estado = estado
+        self._volumen = 1
+        self._control = None
+        TV._numTV += 1
 
     def setMarca(self, marca):
-        self.marca=marca
-
-    def getControl(self):
-        return self.control
+        if isinstance(marca, Marca):
+            self._marca = marca
+    
+    def getMarca(self):
+        return self._marca
 
     def setControl(self, control):
-        self.control=control
-
-    def getPrecio(self):
-        return self.precio
+        if isinstance(control, Control):
+            self._control = control
+    
+    def getControl(self):
+        return self._control
 
     def setPrecio(self, precio):
-        self.precio=precio
-
-    def getVolumen(self):
-        return self.volumen
+        self._precio = precio
+    
+    def getPrecio(self):
+        return self._precio
 
     def setVolumen(self, volumen):
-        if ((self.estado == True) and (volumen <8 and volumen >0)):
-            self.volumen=volumen
-
-    def getCanal(self):
-        return self.canal
+        if(self._estado==True and (volumen>=0 and volumen<=7)):
+            self._volumen = volumen
+    
+    def getVolumen(self):
+        return self._volumen
 
     def setCanal(self, canal):
-        if  (canal > 0 and canal < 121) and (self.estado == True):
-            self.canal=canal
+        if(self._estado==True and (canal>=1 and canal<=120)):
+            self._canal = canal
+    
+    def getCanal(self):
+        return self._canal
 
     @classmethod
-    def setNumTV(self, numTV):
-        self.numTV=numTV
-
+    def setNumTV(cls, numTV):
+        cls._numTV = numTV
+    
     @classmethod
-    def getNumTV(self):
-        return self.numTV
+    def getNumTV(cls):
+        return cls._numTV
 
     def turnOn(self):
-        if self.estado ==False:
-            self.estado = True
+        self._estado = True
 
     def turnOff(self):
-        if self.estado ==True:
-            self.estado = False
+        self._estado = False
+ 
+    def getEstado(self):
+        return self._estado
 
     def canalUp(self):
-        if (self.canal > 0 and self.canal < 120)and(self.estado==True):
-            self.canal+=1
+        if(self._estado==True and self._canal<120):
+            self._canal += 1
 
     def canalDown(self):
-        if (self.canal > 1 and self.canal <= 120)and(self.estado==True):
-            self.canal-=1
+        if(self._estado==True and self._canal>1):
+            self._canal -= 1
 
     def volumenUp(self):
-        if (self.volumen >=0 and self.volumen <7)and(self.estado==True):
-            self.volumen+=1
+        if(self._estado==True and self._volumen<7):
+            self._volumen += 1
 
     def volumenDown(self):
-        if (self.volumen < 8 and self.volumen >0)and(self.estado == True):
-            self.volumen-=1
-
-    def getEstado(self):
-        return self.estado
+        if(self._estado==True and self._volumen>0):
+            self._volumen -= 1
