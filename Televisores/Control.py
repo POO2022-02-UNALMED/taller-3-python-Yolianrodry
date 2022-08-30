@@ -1,4 +1,34 @@
 #fff
+from televisores.tv import TV
+from televisores.control import Control
+from televisores.marca import Marca
+
+if _name_ == "_main_":
+    marca1 = Marca("el pepe")
+    marca2 = Marca("eooo")
+
+    tv1 = TV(marca1, True)
+    tv2 = TV(marca2, False)
+
+    tv1.setPrecio(2000)
+    tv2.setCanal(90)
+    tv1.setCanal(121)
+    tv2.setVolumen(7)
+
+    control1 = Control()
+    control1.enlazar(tv1)
+    control1.turnOff()
+    control1.setCanal(50)
+    control1.turnOn()
+    control1.canalUp()
+    control1.volumenUp()
+
+    print(tv2.getCanal())
+    print(tv1.getPrecio())
+    print(tv1.getMarca().getNombre())
+    print(tv1.getCanal())
+
+
 class TV:
 
     numTV = 0
@@ -85,3 +115,52 @@ class TV:
         if self._estado:
             if self._volumen > 0:
                 self._volumen -= 1
+
+class Marca:
+
+    def _init_(self, nombre):
+        self._nombre = nombre
+
+    def setNombre(self, nombre):
+        self._nombre = nombre
+
+    def getNombre(self):
+        return self._nombre
+
+
+class Control:
+
+
+    def _init_(self):
+        self._tv = None
+
+    def turnOn(self):
+        self._tv.turnOn()
+
+    def turnOff(self):
+        self._tv.turnOff()
+
+    def canalUp(self):
+        self._tv.canalUp()
+
+    def canalDown(self):
+        self._tv.canalDown()
+
+    def volumenUp(self):
+        self._tv.volumenUp()
+
+    def volumenDown(self):
+        self._tv.volumenDown()
+
+    def setCanal(self, canal):
+        self._tv.setCanal(canal)
+
+    def enlazar(self, tv):
+        self._tv = tv
+        self._tv.setControl(self)
+
+    def setTv(self, tv):
+        self._tv = tv
+
+    def getTv(self):
+        return self._tv
